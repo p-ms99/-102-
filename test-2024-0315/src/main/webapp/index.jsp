@@ -9,13 +9,13 @@
 <body>
 	<nav>
 		<ul>
-			<li><a href="input.jsp">ΈνΗΤΐΤ·Β</a></li>
-			<li><a href="search.jsp">ΈνΗΤ°Λ»φ</a></li>
+			<li><a href="input.jsp">λª…ν•¨μ…λ ¥</a></li>
+			<li><a href="search.jsp">λª…ν•¨κ²€μƒ‰</a></li>
 		</ul>
 	</nav>
 
-	<h1>ΉΪΉ«ΌΊ</h1>
-	<h2>ΖωΉψΘ£ : 010-XXXX-XXXX</h2>
+	<h1>λ°•λ¬΄μ„±</h1>
+	<h2>ν°λ²νΈ : 010-XXXX-XXXX</h2>
 
 
 
