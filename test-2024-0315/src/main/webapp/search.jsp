@@ -20,11 +20,11 @@
 
 Connection conn = null;
 
-String url = "jdbc:oracle:thin@localhost:1521/xe";
+String url = "jdbc:oracle:thin:@localhost:1521/xe";
 String user = "system";
 String password = "1234";
 
-Class.forName("oracle.jdbc.driver.OracleDriber");
+Class.forName("oracle.jdbc.driver.OracleDriver");
 conn = DriverManager.getConnection(url, user, password);
 
 //검색어 처리
