@@ -1,42 +1,73 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+<%@page import="java.sql.*" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="EUC-KR">
-<title>Insert title here</title>
+<title>ëª…í•¨ ê²€ìƒ‰</title>
 </head>
 <body>
-	<div align="center"></div>
-	<table border="1" width="700" height="300">
-		<tr height="20%">
-			<th width="15%">ÀÌ¸§</th>
-			<th width="15%">°ü°è</th>
-			<th width="20%">Æù¹øÈ£</th>
-			<th width="25%">ÀÌ¸ŞÀÏ</th>		
-			<th width="40%">ÁÖ¼Ò</th>				
-		</tr>	
-		<tr align="center">
-			<td>¹Ú¹«¼º</td>	
-			<td>º»ÀÎ</td>		
-			<td>010-XXXX-XXXX</td>		
-			<td>antjd915@naver.com</td>		
-			<td>¼øÃµ½Ã</td>		
-		</tr>	
-		<tr align="center">
-			<td>½ÉÇüÅÃ</td>	
-			<td>Ä£±¸</td>	
-			<td>010-XXXX-XXXX</td>		
-			<td>clfrhr100@naver.com</td>		
-			<td>ºÎ»ê±¤¿ª½Ã</td>		
-		</tr>
-	</table>
-	
-	<nav>
-		<ul>
-			<li><a href="index.jsp">È¨À¸·Î</a></li>	
-		</ul>
-	</nav>
-	
+<h1>ëª…í•¨ ê²€ìƒ‰</h1>
+<from action="search.jsp" method="post">
+	<input type="text" name="keyword" placeholder="ê²€ìƒ‰ì–´ ì…ë ¥">
+	<input type="submit" value="ê²€ìƒ‰">
+</from>
+
+<%
+//oraclexe ì—°ê²°
+
+Connection conn = null;
+
+String url = "jdbc:oracle:thin@localhost:1521/xe";
+String user = "system";
+String password = "1234";
+
+Class.forName("oracle.jdbc.driver.OracleDriber");
+conn = DriverManager.getConnection(url, user, password);
+
+//ê²€ìƒ‰ì–´ ì²˜ë¦¬
+String keyword = request.getParameter("keyword");
+
+//SQL ì¿¼ë¦¬ ì‘ì„±
+String sql = "SELECT * From namecard";
+if(keyword != null && !keyword.isEmpty()){
+	sql+= "WHERE name LIKE '%" + keyword + "%' OR telno LIKE '%" +
+			keyword + "%' OR mail LIKE '%" + keyword + "%'";
+}
+
+// statement ìƒì„± ë° ì‹¤í–‰
+Statement stmt = conn.createStatement();
+ResultSet rs = stmt.executeQuery(sql);
+
+// ê²€ì‚¬ ê²°ê³¼ ì¶œë ¥
+%>
+
+<table border="1">
+	<tr>
+		<th>ìˆœë²ˆ</th>
+		<th>ì´ë¦„</th>
+		<th>í°ë²ˆí˜¸</th>
+		<th>ë©”ì¼</th>
+	</tr>
+<%
+int count = 1;
+while (rs.next()){
+%>
+<tr>
+	<td><%= count++ %></td>
+	<td><%= rs.getString("name") %></td>
+	<td><%= rs.getString("telno")%></td>
+	<td><%= rs.getString("mail")%></td>
+</tr>
+<%
+}
+rs.close();
+stmt.close();
+conn.close();
+%>
+</table>
+
 </body>
 </html>
