@@ -10,36 +10,36 @@
 	<div align="center"></div>
 	<table border="1" width="550" height="300">
 		<tr align="center">
-			<td>ÀÌ¸§</td>
+			<td>ì´ë¦„</td>
 			<td><input type = "text" name = "txtName" size = "10"></td>
 		</tr>	
 		<tr align="center">
-			<td>°ü°è</td>
+			<td>ê´€ê³„</td>
 			<td><input type = "text" name = "txtRelationship" size = "10"></td>
 		</tr>	
 		<tr align="center">
-			<td>Æù¹øÈ£</td>
+			<td>í°ë²ˆí˜¸</td>
 			<td><input type = "text" name = "txtPhone" size = "15"></td>
 		</tr>			
 		<tr align="center">
-			<td>¸ÞÀÏ</td>
+			<td>ë©”ì¼</td>
 			<td><input type = "text" name = "txtMail" size = "30"></td>
 		</tr>	
 		<tr align="center">
-			<td>ÁÖ¼Ò</td>
+			<td>ì£¼ì†Œ</td>
 			<td><input type = "text" name = "txtAdress" size = "50"></td>
 		</tr>	
 		<tr>
 			<td colspan="2">
-				<button type="submit">ÀúÀå</button>
-				<button type="reset">Ãë¼Ò</button>
+				<button type="submit">ì €ìž¥</button>
+				<button type="reset">ì·¨ì†Œ</button>
 			</td>
 		</tr>	
 	</table>
 	
 	<nav>
 		<ul>
-			<li><a href="index.jsp">È¨À¸·Î</a></li>	
+			<li><a href="index.jsp">í™ˆìœ¼ë¡œ</a></li>	
 		</ul>
 	</nav>		
 </body>
