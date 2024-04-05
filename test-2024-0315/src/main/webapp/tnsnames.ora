@@ -1,0 +1,79 @@
+XE =
+   (DESCRIPTION =
+      (ADDRESS = 
+      (PROTOCOL = TCP)(HOST = localhost)(PORT = 1521))
+      (CONNECT_DATA =
+         (SERVICE_NAME = XE)
+      )
+   )
+
+<alias>= [ (DESCRIPTION_LIST =  # Optional depending on whether u have 
+				# one or more descriptions
+				# If there is just one description, unnecessary ]
+	  (DESCRIPTION=
+	    [ (SDU=2048) ]	# Optional, defaults to 2048
+				# Can take values between 512 and 32K
+	    [ (ADDRESS_LIST=    # Optional depending on whether u have
+				# one or more addresses
+				# If there is just one address, unnecessary ]
+	      (ADDRESS=
+		[ (COMMUNITY=<community_name>) ] 
+		(PROTOCOL=tcp)
+		(HOST=<hostname>)
+		(PORT=<portnumber (1521 is a standard port used)>)
+	      )
+	      [ (ADDRESS=
+		  (PROTOCOL=ipc)
+		  (KEY=<ipckey (PNPKEY is a standard key used)>)	
+		)
+	      ]
+	      [ (ADDRESS=
+		  [ (COMMUNITY=<community_name>) ]
+		  (PROTOCOL=decnet)
+		  (NODE=<nodename>)
+		  (OBJECT=<objectname>)
+		)
+	      ]
+              ... # More addresses
+	    [ ) ] # Optional depending on whether ADDRESS_LIST is used or not 
+	    [ (CONNECT_DATA=
+		(SID=<oracle_sid>)
+		[ (GLOBAL_NAME=<global_database_name>) ]
+	      )
+	    ]
+	    [ (SOURCE_ROUTE=yes) ]  
+	  )
+	  (DESCRIPTION=     
+	    [ (SDU=2048) ]	# Optional, defaults to 2048
+				# Can take values between 512 and 32K
+	    [ (ADDRESS_LIST= ]	# Optional depending on whether u have more
+				# than one address or not
+				# If there is just one address, unnecessary
+	      (ADDRESS
+		[ (COMMUNITY=<community_name>) ]
+		(PROTOCOL=tcp)
+		(HOST=<hostname>)
+		(PORT=<portnumber (1521 is a standard port used)>)
+	      )
+	      [ (ADDRESS=
+		  (PROTOCOL=ipc)
+		  (KEY=<ipckey (PNPKEY is a standard key used)>)
+	         )
+	      ]
+	      ... 		# More addresses
+	    [ ) ] 		# Optional depending on whether ADDRESS_LIST  
+				# is being used
+	    [ (CONNECT_DATA=
+		(SID=<oracle_sid>)
+		[ (GLOBAL_NAME=<global_database_name>) ]
+	      )
+	    ]
+	    [ (SOURCE_ROUTE=yes) ]
+	  )
+	  [ (CONNECT_DATA=
+	      (SID=<oracle_sid>)
+	      [ (GLOBAL_NAME=<global_database_name>) ]
+	    )
+	  ]
+	  ...   # More descriptions 
+	[ ) ]	# Optional depending on whether DESCRIPTION_LIST is used or not
