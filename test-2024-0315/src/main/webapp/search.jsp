@@ -1,6 +1,6 @@
-<%@page import="org.apache.jasper.tagplugins.jstl.core.Import"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@page import="org.apache.jasper.tagplugins.jstl.core.Import"%>
 <%@page import="java.sql.*" %>
 
     
@@ -12,7 +12,11 @@
 </head>
 <body>
 
-
+	<nav>
+		<ul>
+			<li><a href="index.jsp">홈으로</a></li>
+		</ul>
+	</nav>
 
 <h1>명함 검색</h1>
 <form action="search.jsp" method="post">
@@ -29,7 +33,7 @@ Statement stmt = null;
 
 String url = "jdbc:oracle:thin:@localhost:1521/xe";
 String user = "system";
-String password = "123456";
+String password = "1234";
 
 Class.forName("oracle.jdbc.driver.OracleDriver");
 conn = DriverManager.getConnection(url, user, password);
