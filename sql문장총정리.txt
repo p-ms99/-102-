@@ -1,0 +1,97 @@
+CREATE TABLE namecard(
+  id NUMBER(4) not null,
+  name VARCHAR2(10),
+  telno VARCHAR2(15),
+  mail VARCHAR2(30),
+  constraint namecard_pk primary key (id)
+);
+
+위와 같이 명함관리를 위한 namecard table 을 만들었을 때, 
+데이터 레코드를 2개 넣는 sql insert 코드를 만들어 주세요.
+1        kingkong     010-3333-3333        kingkong@gmail.com        서울시 강남구
+2        keonhyo      010-6764-3284        ghbaek64@gmail.com        부산시 해운대구
+
+INSERT INTO namecard (id, name, telno, mail)
+VALUES (1, 'kingkong', '010-3333-3333', 'kingkong@gmail.com');
+
+INSERT INTO namecard (id, name, telno, mail)
+VALUES (2, 'keonhyo', '010-6764-3284', 'ghbaek64@gmail.com');
+
+namecard table 의 field 를 너무 길게 만들어서 namecard table 을 drop 시키고 다시 만들려고 해요. sql drop 문장을 만들어 주세요.
+
+DROP TABLE namecard;
+
+oracleXE 공부중인데 table에 id와 name, telno 3개의 field 중 no 를 기본키로 하려고 한다. sql code 를 만들어 주세요.
+
+index.jsp 파일에는 '명함검색' 이라는 메뉴가 있으며, '명함검색' 메뉴를 누르면 링크된 search.jsp 파일이 읽어진다. <a href="search.jsp">명압검색</a>
+search.jsp 파일의 내용은 namecard table(id, name, telno, mail 4개의 필드로 되어 있음)에 있는 모든 레코드를 읽어와서 검색된 내용을 테이블 형태로 보여주는 것이다.
+테이블로 보여줄 때, table head는 순번, 이름, 폰번호, 메일 4개로 하고 table 내용으로 namecard table 에서 검색해온 것을 보여준다.
+oracleXE 연결할 때 id 는 system, password 는 123456  입니다.
+oracle 연결 코드 포함한 search.jsp 파일을 생성하여 보여주세요.
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>명함 검색</title>
+</head>
+<body>
+<h1>명함 검색</h1>
+<form action="search.jsp" method="post">
+  <input type="text" name="keyword" placeholder="검색어 입력">
+  <input type="submit" value="검색">
+</form>
+<%
+// OracleXE 연결
+import
+
+String url = "jdbc:oracle:thin:@localhost:1521/xe";
+String user = "system";
+String password = "123456";
+Connection conn = DriverManager.getConnection(url, user, password);
+
+// 검색어 처리
+String keyword = request.getParameter("keyword");
+
+// SQL 쿼리 작성
+String sql = "SELECT * FROM namecard";
+if (keyword != null && !keyword.isEmpty()) {
+  sql += " WHERE name LIKE '%" + keyword + "%' OR telno LIKE '%" + keyword + "%' OR mail LIKE '%" + keyword + "%'";
+}
+
+// Statement 생성 및 실행
+Statement stmt = conn.createStatement();
+ResultSet rs = stmt.executeQuery(sql);
+
+// 검색 결과 출력
+%>
+<table border="1">
+  <tr>
+    <th>순번</th>
+    <th>이름</th>
+    <th>폰번호</th>
+    <th>메일</th>
+  </tr>
+  <%
+  int count = 1;
+  while (rs.next()) {
+  %>
+  <tr>
+    <td><%= count++ %></td>
+    <td><%= rs.getString("name") %></td>
+    <td><%= rs.getString("telno") %></td>
+    <td><%= rs.getString("mail") %></td>
+  </tr>
+  <%
+  }
+  rs.close();
+  stmt.close();
+  conn.close();
+  %>
+</table>
+</body>
+</html>
+
+
