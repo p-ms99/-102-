@@ -12,6 +12,12 @@
 </head>
 <body>
 
+	<nav>
+		<ul>
+			<li><a href="index.jsp">홈으로</a></li>
+		</ul>
+	</nav>
+
 <h1>명함 입력</h1>
 <form action="<%= request.getRequestURI() %>" method="post">
 <table border="1">
@@ -56,14 +62,16 @@ Statement stat = null;
 %>
 
 <%
+
 try {
 	// 드라이버 로딩
 	Class.forName("oracle.jdbc.driver.OracleDriver");
 	// DB 연결
 	conn = DriverManager.getConnection(url, loginid, password);
 	// SQL 쿼리
+
 	String sql = "INSERT INTO namecard (id, name, telno, mail) VALUES (" + id +", '"+ name + "', '" + telNo + "', '" + email +"')";
-	
+
 	
 	// Statement 객체 생성 및 SQL 쿼리 실행
 	stat = conn.createStatement();
@@ -83,12 +91,8 @@ catch (Exception e) {
 	e.printStackTrace();
 	// 에러 메시지
 	%>
-	<script>
-	alert("저장 오류 발생! 관리자에게 문의하세요!");
-	</script>
 	<%
 }
-
 
 finally {
 // DB 연결 종료
