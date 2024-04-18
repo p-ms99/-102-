@@ -50,7 +50,7 @@
 // Oracle DB 연결 정보
 String url = "jdbc:oracle:thin:@localhost:1521:xe";
 String loginid = "system";
-String password = "1234";
+String password = "123456";
 // 입력값 변수
 String id = request.getParameter("txtId");
 String name = request.getParameter("txtName");
@@ -63,34 +63,40 @@ Statement stat = null;
 
 <%
 
+
 try {
-	// 드라이버 로딩
-	Class.forName("oracle.jdbc.driver.OracleDriver");
-	// DB 연결
-	conn = DriverManager.getConnection(url, loginid, password);
-	// SQL 쿼리
-
-	String sql = "INSERT INTO namecard (id, name, telno, mail) VALUES (" + id +", '"+ name + "', '" + telNo + "', '" + email +"')";
-
+	if(id != null && name != null && telNo != null && email != null){
+		// 드라이버 로딩
+		Class.forName("oracle.jdbc.driver.OracleDriver");
+		// DB 연결
+		conn = DriverManager.getConnection(url, loginid, password);
+		// SQL 쿼리
 	
-	// Statement 객체 생성 및 SQL 쿼리 실행
-	stat = conn.createStatement();
-	StringBuffer sb = new StringBuffer();
-	sb.append(sql);
-	stat.executeUpdate(sb.toString());
-	// 성공 메시지
-	%>
+		String sql = "INSERT INTO namecard (id, name, telno, mail) VALUES (" + id +", '"+ name + "', '" + telNo + "', '" + email +"')";
 	
-	<script>
-	alert("저장되었습니다!");
-	</script>
-	<%
+		
+		// Statement 객체 생성 및 SQL 쿼리 실행
+		stat = conn.createStatement();
+		StringBuffer sb = new StringBuffer();
+		sb.append(sql);
+		stat.executeUpdate(sb.toString());
+		// 성공 메시지
+		%>
+		
+		<script>
+		alert("저장되었습니다!");
+		</script>
+		<%
+	}
 } 
 catch (Exception e) {
 	// 에러 처리
 	e.printStackTrace();
 	// 에러 메시지
 	%>
+	<script>
+	alert("Error");
+	</script>
 	<%
 }
 
