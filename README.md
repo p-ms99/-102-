@@ -13,7 +13,7 @@ https://tomcat.apache.org/
 6. alter user system identified by 1234;     -> 비밀번호 바뀜
 7. conn system/1234 as sysdba;   -> 연결되나 확인
 
-# 통켓 argument 추가
+# 톰켓 argument 추가
 -Djava.library.path=C:\IPP\dbhomeXE\jdbc\lib\ojdbc11.jar
 
 # 환경변수 설정 
