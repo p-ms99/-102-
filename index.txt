@@ -1,0 +1,14 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<html>
+<head>
+<title>메인화면</title>
+</head>
+<body>
+	<a>제품 등록</a><br>
+	<a>제조사 등록</a><br>
+	<a href="product_search.jsp">제품 조회</a><br>
+	<a href="io_inventory.jsp">입출고 등록</a><br>
+	<a href="result_ioinventory_search.jsp">입출고 현황 조회 결과</a><br>
+</body>
+</html>

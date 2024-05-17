@@ -1,0 +1,26 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>제품 조회</title>
+</head>
+<body>
+    <h1>제품 조회</h1>
+    <form action="result_product_search.jsp" method="post">
+        <table>
+            <tr>
+                <th>제품코드(4) 입력</th>
+            </tr>
+            <tr>
+                <th>제품코드:</th>
+                <td><input type="text" name="txtP_code" size="4" maxlength="4"></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="확인" name="cmdOK"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>

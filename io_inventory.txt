@@ -1,0 +1,139 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="java.sql.*"%>
+<%@ page import="java.text.SimpleDateFormat"%>
+<%@ page import="java.util.Date"%>
+
+<%
+    // 1. 데이터베이스 연결 설정
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+
+    // 데이터베이스 연결
+    String url = "jdbc:oracle:thin:@localhost:1521:xe";
+    String user = "system";
+    String password = "1234";
+    
+    Class.forName("oracle.jdbc.driver.OracleDriver");
+    conn = DriverManager.getConnection(url, user, password);
+    
+    String productCode = request.getParameter("txtP_code");
+    String ioType = request.getParameter("ioType");
+
+    // 현재 날짜
+    String currentDate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+
+    // 1. 마지막 입출고 코드 조회
+    String sql = "SELECT MAX(io_code) FROM io_inventory";
+    stmt = conn.createStatement();
+    rs = stmt.executeQuery(sql);
+
+    int maxIOCode = 0;
+    if (rs.next()) {
+        maxIOCode = rs.getInt(1) + 1;
+    }
+
+    // 2. 입력된 데이터
+    String ioCode = String.valueOf(maxIOCode);
+    Integer quantity = 0;
+    if (request.getParameter("txtQuantite") != null) {
+    	quantity = Integer.parseInt(request.getParameter("txtQuantite"));
+    }
+    
+    if (productCode != null) {
+    	try {
+		    // 3. 입출고 등록 SQL 문
+		    sql = "INSERT INTO io_inventory (io_code, p_code, io_type, quantity, io_date)"
+		            + " VALUES (" + ioCode + ", '" + productCode + "', '" + ioType + "', "
+		            + quantity + ", '" + currentDate + "')";
+		
+		    // 4. 입출고 등록
+		    stmt.executeUpdate(sql);
+		
+		    // 5. 제품 재고 갱신
+		    int updatedQuantity = 0;
+		    sql = "SELECT inventory FROM product WHERE p_code = '" + productCode + "'";
+		    rs = stmt.executeQuery(sql);
+		
+		    if (rs.next()) {
+		        updatedQuantity = rs.getInt(1);
+		    }
+		
+		    if ("입고".equals(ioType)) {
+		        updatedQuantity += quantity;
+		    } else {
+		        if (updatedQuantity < quantity) {
+		            throw new Exception("출고 수량이 재고 수량보다 많습니다.");
+		        }
+		        updatedQuantity -= quantity;
+		    }
+		
+		    sql = "UPDATE product SET inventory = " + updatedQuantity + " WHERE p_code = '" + productCode + "'";
+		    stmt.executeUpdate(sql);
+		
+		    // 6. 성공/실패 메시지 출력
+		    out.println("<script>");
+		    out.println("alert('성공적으로 입출고 되었습니다!!')");
+		    out.println("location.href='io_inventory.jsp'"); // 현재 페이지 새로고침
+		    out.println("</script>");
+	
+    	} catch (Exception e) {
+            e.printStackTrace();
+            out.println("<script>");
+            out.println("alert('입출고 실패하였습니다!! 확인바랍니다.')");
+            out.println("location.href='io_inventory.jsp'"); // 현재 페이지 새로고침
+            out.println("</script>");
+        } finally {
+            // 사용한 자원 해제
+            if (rs != null) rs.close();
+            if (stmt != null) stmt.close();
+            if (conn != null) conn.close();
+        }
+    }
+    
+    
+%>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>입출고 등록</title>
+</head>
+<body>
+    <h1>입출고 등록</h1>
+    <form action="io_inventory.jsp" method="post">
+        <table border="1">
+            <tr>
+                <th>입출고번호</th>
+                <th><label for="txtIOCode">IO<%= maxIOCode %></label></th>
+            </tr>
+            <tr>
+                <th>제품코드</th>
+                <td><input type="text" name="txtP_code" id="txtP_code" size="4" maxlength="4"></td>
+            </tr>
+            <tr>
+                <th>입출고구분</th>
+                <td>
+                    <input type="radio" name="ioType" id="ioOne" value="입고" checked>
+                    <label for="ioOne">입고</label>
+                    <input type="radio" name="ioType" id="ioTwo" value="출고">
+                    <label for="ioTwo">출고</label>
+                </td>
+            </tr>
+            <tr>
+                <th>입출고수량</th>
+                <td><input type="number" name="txtQuantite" id="txtQuantite" size="4"></td>
+            </tr>
+            <tr>
+                <th>입출고날짜</th>
+                <th><label for="txtIODate"><%= currentDate %></label></th>
+            </tr>
+            <tr>
+                <td><input type="submit" value="확인" name="cmdOK"></td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
